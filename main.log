@@ -1,3 +1,0 @@
-[2023-03-10 10:31:06,904][__main__][INFO] - Setting up GILON Dataset with CV number 0
-[2023-03-10 10:31:08,063][__main__][INFO] - Input channel number is 14
-[2023-03-10 10:31:08,063][__main__][INFO] - Setting up LightningModel lightning_model_cls_recbam and task gilon_activity, model shufflenet
