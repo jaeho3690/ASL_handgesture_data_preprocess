@@ -1,0 +1,89 @@
+task:
+  task_name: gilon_activity
+  features_save_dir: gilon_chunk40_window160_72users
+  validation_cv_num: 0
+  in_channels: 14
+  num_class: 7
+  exp_subset:
+  - EXP01
+  - EXP02
+  - EXP03
+  - EXP04
+  - EXP05
+  - EXP06
+  - EXP07
+  - EXP08
+  - EXP09
+  - EXP10
+  - EXP11
+  - EXP12
+  - EXP13
+  - EXP14
+  - EXP15
+  - EXP16
+  optimizer:
+    lr: 0.002
+  scheduler: none
+  recurrenceplot:
+    dimension: 1
+    time_delay: 20
+    threshold: distance
+    percentage: 10
+  callbacks:
+    monitor: val_loss
+    check_val_every_n_epoch: 2
+    max_epochs: 200
+    save_top_k: 1
+    monitor_mode: min
+    patience: 3
+    min_delta: 0.005
+  vit_params:
+    image_size: 160
+    patch_size: 16
+model:
+  model_name: shufflenet
+  groups: 3
+  fc1_output: 64
+  fc2_output: 64
+  stage_out_channels:
+  - -1
+  - 24
+  - 120
+  - 240
+  - 480
+channelattention:
+  name: simam
+loss:
+  name: cross-entropy
+lightning_model: lightning_model_cls_recbam
+server_name: cocacola
+exp_num: 9999
+seed: 42
+gpu_id: 0
+fast_dev_run: false
+limit_train_batches: 0.1
+limit_val_batches: 0.1
+predict:
+  checkpoint_path: checkpoints/2023-02-08_13:13:08/shufflenet_epoch=05.ckpt
+  limit_predict_batches: 1
+  predict_total: 10
+  dropout_rate: 0.2
+  pred_save_path: outputs/${task.task_name}/EXP${exp_num}/
+dataset:
+  batch_size: 512
+  num_workers: 8
+image_encoding: rp
+remove_feature: false
+remove_feature_file_name: none
+remove_feature_file_key: -1
+remove_feature_idx_lists:
+- 0
+add_random_channel_idx: false
+random_channel_type: white_noise
+logger:
+  project_name: TEAMDEMA/recbamteam
+  name: ${task.task_name}_${model.model_name}_EXP${exp_num}
+  api_key: eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiJiMDFkM2MzNi1iYWFlLTQ4MTUtOGYxYS02NmIzM2NmNWNiZGEifQ==
+save_output_path: outputs/${task.task_name}/EXP${exp_num}
+save_classwise_attention_path: outputs/${task.task_name}/classwise_attention/
+save_global_attention_path: outputs/${task.task_name}/global_attention/
